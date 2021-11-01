@@ -223,8 +223,8 @@ module Schedule
 
       def to_s
         schedule = Cronex::ExpressionDescriptor.new(@schedule_spec).description
-        str = "#{@command} #{schedule} (line #{@line_number}, pos #{@pos_offset})"
-        # str = "#{@command} #{schedule}"
+        # str = "#{@command} #{schedule} (line #{@line_number}, pos #{@pos_offset})"
+        str = "#{@command} #{schedule}"
       end
 
     end
