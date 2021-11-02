@@ -111,6 +111,7 @@ module ScheduleJob
         # puts "Installing new cron job: #{job_spec}"
 
         new_crontab = [read_crontab(@user).strip, job_spec.strip].reject(&:empty?).join("\n")
+        new_crontab << "\n"   # add a trailing newline
         write_crontab(new_crontab)
       end
 
