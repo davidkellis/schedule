@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name          = "schedule"
+  spec.name          = "schedule_job"
   spec.version       = "1.0.0"
   spec.authors       = ["David Ellis"]
   spec.email         = ["david@conquerthelawn.com"]

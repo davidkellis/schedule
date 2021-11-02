@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    schedule (1.0.0)
+    schedule_job (1.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -52,7 +52,7 @@ DEPENDENCIES
   parse-cron
   rake
   rspec
-  schedule!
+  schedule_job!
 
 BUNDLED WITH
    2.2.16
