@@ -1,7 +1,5 @@
 require "optparse"
 
-# schedule --every 10m "my_command --foo --bar"
-
 module ScheduleJob
   class Cli
     def self.run(argv = ARGV)
@@ -71,6 +69,8 @@ module ScheduleJob
         remove_job(args)
       when args[:cron] || args[:every]    # write jobs
         install_job(args)
+      else
+        puts "No parameters specified. Please specify one of: --every, --cron, --list, or --rm"
       end
     end
 
