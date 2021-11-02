@@ -39,42 +39,41 @@ Usage: schedule [options] command
 ~ ❯ schedule -d -e 10m backup.sh
 Scheduling: backup.sh Every 10 minutes
 Next three runs:
-1. 2021-11-01 21:40:00 -0500
-2. 2021-11-01 21:50:00 -0500
-3. 2021-11-01 22:00:00 -0500
+1. 2021-11-01 21:50:00 -0500
+2. 2021-11-01 22:00:00 -0500
+3. 2021-11-01 22:10:00 -0500
 ~ ❯ schedule -l
 Jobs
 1. backup.sh Every 10 minutes
 ~ ❯ crontab -l
 */10 * * * * backup.sh
-
 ~ ❯ schedule -e 3M quarterly_backup.sh
-Scheduling: quarterly_backup.sh At 9:43 PM, on day 1 of the month, every 3 months
+Scheduling: quarterly_backup.sh At 9:50 PM, on day 1 of the month, every 3 months
 Next three runs:
-1. 2022-01-01 21:43:00 -0600
-2. 2022-04-01 21:43:00 -0500
-3. 2022-07-01 21:43:00 -0500
+1. 2022-01-01 21:50:00 -0600
+2. 2022-04-01 21:50:00 -0500
+3. 2022-07-01 21:50:00 -0500
 ~ ❯ schedule -l
 Jobs
 1. backup.sh Every 10 minutes
-2. quarterly_backup.sh At 9:43 PM, on day 1 of the month, every 3 months
+2. quarterly_backup.sh At 9:50 PM, on day 1 of the month, every 3 months
 ~ ❯ crontab -l
 */10 * * * * backup.sh
-43 21 1 */3 * quarterly_backup.sh
-
+50 21 1 */3 * quarterly_backup.sh
 ~ ❯ schedule --dryrun --rm 1
 Would remove: backup.sh Every 10 minutes
 ~ ❯ schedule --dryrun --rm 2
-Would remove: quarterly_backup.sh At 9:43 PM, on day 1 of the month, every 3 months
+Would remove: quarterly_backup.sh At 9:50 PM, on day 1 of the month, every 3 months
 ~ ❯ schedule --rm 1
 Removing: backup.sh Every 10 minutes
 ~ ❯ schedule -l
 Jobs
-1. quarterly_backup.sh At 9:43 PM, on day 1 of the month, every 3 months
+1. quarterly_backup.sh At 9:50 PM, on day 1 of the month, every 3 months
 ~ ❯ schedule --rm 1
-Removing: quarterly_backup.sh At 9:43 PM, on day 1 of the month, every 3 months
+Removing: quarterly_backup.sh At 9:50 PM, on day 1 of the month, every 3 months
 ~ ❯ schedule -l
 ~ ❯ crontab -l
+~ ❯
 ```
 
 ## License
