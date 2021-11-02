@@ -82,14 +82,18 @@ module ScheduleJob
           puts "Scheduling: #{job.to_s}"
           install_cron_job(job)
         end
-        puts "Next three runs:"
-        cron_parser = CronParser.new(job.schedule_spec)
-        first_run_time = cron_parser.next(Time.now)
-        second_run_time = cron_parser.next(first_run_time)
-        third_run_time = cron_parser.next(second_run_time)
-        puts "1. #{first_run_time}"
-        puts "2. #{second_run_time}"
-        puts "3. #{third_run_time}"
+
+        cron_parser = CronParser.new(job.schedule_spec) rescue nil
+        if cron_parser
+          puts "Next three runs:"
+          first_run_time = cron_parser.next(Time.now)
+          second_run_time = cron_parser.next(first_run_time)
+          third_run_time = cron_parser.next(second_run_time)
+
+          puts "1. #{first_run_time}"
+          puts "2. #{second_run_time}"
+          puts "3. #{third_run_time}"
+        end
       end
 
       def install_cron_job(job)
@@ -161,14 +165,14 @@ module ScheduleJob
         hour = next_moment.hour
         day = next_moment.day
         schedule_spec = case duration_unit_of_time
-          when "m"
-            "*/#{duration_quantity} * * * *"
-          when "h"
-            "#{minute} */#{duration_quantity} * * *"
-          when "d"
-            "#{minute} #{hour} */#{duration_quantity} * *"
-          when "M"
-            "#{minute} #{hour} #{day} */#{duration_quantity} *"
+        when "m"
+          "*/#{duration_quantity} * * * *"
+        when "h"
+          "#{minute} */#{duration_quantity} * * *"
+        when "d"
+          "#{minute} #{hour} */#{duration_quantity} * *"
+        when "M"
+          "#{minute} #{hour} #{day} */#{duration_quantity} *"
         end
         self.new(schedule_spec, command)
       end
@@ -218,7 +222,23 @@ module ScheduleJob
       end
 
       def to_s
-        schedule = Cronex::ExpressionDescriptor.new(@schedule_spec).description
+        schedule = case @schedule_spec
+        when "@reboot"
+          "at every reboot"
+        when "@yearly", "@annually"
+          "every year"
+        when "@monthly"
+          "every month"
+        when "@weekly"
+          "every week"
+        when "@daily"
+          "every day"
+        when "@hourly"
+          "every hour"
+        else
+          Cronex::ExpressionDescriptor.new(@schedule_spec).description
+        end
+            
         # str = "#{@command} #{schedule} (line #{@line_number}, pos #{@pos_offset})"
         str = "#{@command} #{schedule}"
       end
