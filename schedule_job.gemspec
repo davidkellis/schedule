@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description   = "job scheduler"
   spec.homepage      = "https://github.com/davidkellis/scheduler"
   spec.license       = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
   spec.files = Dir["**/**"].
                 grep_v(/.gem$/).

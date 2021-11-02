@@ -17,10 +17,6 @@ end
 
 Citrus.require("schedule_job/cron")
 
-# require "polyglot"
-# require "treetop"
-# require "schedule_job/cron.treetop"
-
 module ScheduleJob
   module Cron
     Grammar = ScheduleCronParser
@@ -34,7 +30,6 @@ module ScheduleJob
 
       def self.parse(user_crontab_string)
         Grammar.parse(user_crontab_string, root: :user_crontab)
-        # ::CrontabParser.new.parse(user_crontab_string, root: :user_crontab)
       end
 
       def initialize(user_crontab_string)
@@ -55,17 +50,10 @@ module ScheduleJob
       
       def environment_vars
         @user_crontab&.capture(:environment)&.captures(:directive)
-        # puts @user_crontab.methods.sort.inspect
-        # puts @user_crontab.inspect
-        # puts "*" * 80
-        # puts @user_crontab.environment_spec.inspect
-        # exit()
-        # @user_crontab&.environment&.directive
       end
 
       def job_specs
         @user_crontab&.capture(:jobspecs)&.captures(:jobspec)
-        # @user_crontab&.jobspecs&.jobspec
       end
     end
 
@@ -78,7 +66,6 @@ module ScheduleJob
 
       def self.parse(cron_line)
         Grammar.parse(cron_line, root: :jobspec, consume: false)
-        # ::CrontabParser.new.parse(cron_line, root: :jobspec, consume_all_input: false)
       end
     end
   end

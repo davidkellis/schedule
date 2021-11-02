@@ -50,12 +50,6 @@ module ScheduleJob
 
         raise("Unable to read crontab: #{error_output}") if !exit_status.success? && !no_crontab
 
-        # puts "read_crontab()"
-        # puts "stdout:"
-        # puts stdout
-        # puts "stderr:"
-        # puts stderr
-        
         crontab_output
       end
 
@@ -63,15 +57,7 @@ module ScheduleJob
       def parse_crontab(user_crontab)
         parser = TableParser.new(user_crontab)
 
-        # user_crontab.each_line do |line|
-        #   puts line
-        #   puts "valid? #{LineParser.valid?(line)}"
-        #   puts LineParser.parse(line)
-        # end
-
         return [], [] unless parser.valid?
-
-        # puts "valid!"
 
         environment_vars = parser.environment_vars&.map do |env_directive|
           name = env_directive[:var].to_s
@@ -108,7 +94,6 @@ module ScheduleJob
 
       def install_cron_job(job)
         job_spec = job.specification
-        # puts "Installing new cron job: #{job_spec}"
 
         new_crontab = [read_crontab(@user).strip, job_spec.strip].reject(&:empty?).join("\n")
         new_crontab << "\n"   # add a trailing newline
@@ -136,20 +121,11 @@ module ScheduleJob
       end
 
       def write_crontab(new_crontab, user = @user)
+        # overwrite crontab interactively, per https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
         command = ["crontab"]
         command << "-u #{user}" if user
         command << "-"
         command = command.join(" ")
-
-        # command = "(crontab -l ; echo \"#{job_spec}\") | crontab -"   # add new job to bottom of crontab, per https://stackoverflow.com/questions/610839/how-can-i-programmatically-create-a-new-cron-job
-        # puts "writing new crontab:"
-        # puts new_crontab
-        # puts "*" * 80
-
-        # puts "write_crontab:"
-        # puts "command: #{command}"
-        # puts "new crontab:"
-        # puts new_crontab
 
         stdout, stderr, exit_status = Open3.capture3(command, stdin_data: new_crontab)
         crontab_output = stdout
@@ -193,6 +169,25 @@ module ScheduleJob
             "#{minute} #{hour} */#{duration_quantity} * *"
           when "M"
             "#{minute} #{hour} #{day} */#{duration_quantity} *"
+        end
+        self.new(schedule_spec, command)
+      end
+
+      # duration is one of: reboot, year, month, week, day, hour
+      def self.every_simple_duration(duration, command)
+        schedule_spec = case duration
+        when "reboot"
+          "@reboot"
+        when "year"
+          "@yearly"
+        when "month"
+          "@monthly"
+        when "week"
+          "@weekly"
+        when "day"
+          "@daily"
+        when "hour"
+          "@hourly"
         end
         self.new(schedule_spec, command)
       end

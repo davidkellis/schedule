@@ -32,20 +32,28 @@ module ScheduleJob
           options[:crontab_user] = user
         end
 
-        opts.on("-e", "--every DURATION", "Run command every DURATION units of time.
+        opts.on("-e", "--every DURATION", "Run command every DURATION units of time (valid suffixes are m, h, d, M). DURATION may also be one of the special keywords: reboot, year, month, week, day, hour
         For example:
-        --every 10m                       # meaning, every 10 minutes
-        --every 5h                        # meaning, every 5 hours
-        --every 2d                        # meaning, every 2 days
-        --every 3M                        # meaning, every 3 months
+        --every 10m                       # every 10 minutes
+        --every 5h                        # every 5 hours
+        --every 2d                        # every 2 days
+        --every 3M                        # every 3 months
+
+        Special durations:
+        --every reboot                    # after every reboot
+        --every year                      # every year
+        --every month                     # every month
+        --every week                      # every week
+        --every day                       # every day
+        --every hour                      # every hour
         ") do |every|
           options[:every] = every
         end
 
         opts.on("-c", "--cron CRON", "Run command on the given cron schedule.
         For example:
-        --cron \"*/5 15 * * 1-5\"          # meaning, Every 5 minutes, at 3:00 PM, Monday through Friday
-        --cron \"0 0/30 8-9 5,20 * ?\"     # meaning, Every 30 minutes, between 8:00 AM and 9:59 AM, on day 5 and 20 of the month
+        --cron \"*/5 15 * * 1-5\"          # Every 5 minutes, at 3:00 PM, Monday through Friday
+        --cron \"0 0/30 8-9 5,20 * ?\"     # Every 30 minutes, between 8:00 AM and 9:59 AM, on day 5 and 20 of the month
         ") do |cron_schedule|
           options[:cron] = cron_schedule
         end
@@ -90,13 +98,14 @@ module ScheduleJob
         Cron::Job.new(cron_schedule, command)
       when args[:every]
         duration = args[:every]
-        match = duration.match(/(\d+)(m|h|d|M)/)
-        if match
+        if match = duration.match(/(\d+)(m|h|d|M)/)
           qty = match[1].to_i
           unit_of_time = match[2].to_s
           Cron::Job.every(qty, unit_of_time, command)
+        elsif duration.match(/reboot|year|month|week|day|hour/)
+          Cron::Job.every_simple_duration(duration, command)
         else
-          puts "'#{duration}' is an invalid duration. The duration must be specified as: integer followed immediately by m (minutes), h (hours), d (days), M (months) (e.g. 10m)"
+          puts "'#{duration}' is an invalid duration. The duration must be specified as either (1) integer followed immediately by m (minutes), h (hours), d (days), M (months) (e.g. 10m) or (2) reboot, year, month, week, day, hour"
           exit(1)
         end
       end

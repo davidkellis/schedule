@@ -4,9 +4,6 @@ source "https://rubygems.org"
 gemspec
 
 gem "citrus"
-# gem "whenever"
 gem "cronex"
 gem "parse-cron"
 gem "activesupport"
-# gem "treetop"
-# gem "polyglot"

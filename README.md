@@ -17,23 +17,31 @@ Done installing documentation for schedule_job after 0 seconds
 
 Example usage:
 ```
-~ ❯ schedule -h
+~ ❯ schedule --help
 Usage: schedule [options] command
     -d, --dryrun                     Report what would happen but do not install the scheduled job.
     -l, --list                       List installed cron jobs.
     -r, --rm JOB_ID                  Remove the specified job id as indicated by --list
     -u, --user USER                  User that the crontab belongs to.
-    -e, --every DURATION             Run command every DURATION units of time.
+    -e, --every DURATION             Run command every DURATION units of time (valid suffixes are m, h, d, M). DURATION may also be one of the special keywords: reboot, year, month, week, day, hour
         For example:
-        --every 10m                       # meaning, every 10 minutes
-        --every 5h                        # meaning, every 5 hours
-        --every 2d                        # meaning, every 2 days
-        --every 3M                        # meaning, every 3 months
+        --every 10m                       # every 10 minutes
+        --every 5h                        # every 5 hours
+        --every 2d                        # every 2 days
+        --every 3M                        # every 3 months
+
+        Special durations:
+        --every reboot                    # after every reboot
+        --every year                      # every year
+        --every month                     # every month
+        --every week                      # every week
+        --every day                       # every day
+        --every hour                      # every hour
 
     -c, --cron CRON                  Run command on the given cron schedule.
         For example:
-        --cron "*/5 15 * * 1-5"          # meaning, Every 5 minutes, at 3:00 PM, Monday through Friday
-        --cron "0 0/30 8-9 5,20 * ?"     # meaning, Every 30 minutes, between 8:00 AM and 9:59 AM, on day 5 and 20 of the month
+        --cron "*/5 15 * * 1-5"          # Every 5 minutes, at 3:00 PM, Monday through Friday
+        --cron "0 0/30 8-9 5,20 * ?"     # Every 30 minutes, between 8:00 AM and 9:59 AM, on day 5 and 20 of the month
 
 ~ ❯ schedule -l
 ~ ❯ schedule -d -e 10m backup.sh
