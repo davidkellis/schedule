@@ -1,6 +1,8 @@
+require_relative "lib/schedule_job/version"
+
 Gem::Specification.new do |spec|
   spec.name          = "schedule_job"
-  spec.version       = "1.0.0"
+  spec.version       = ScheduleJob::VERSION
   spec.authors       = ["David Ellis"]
   spec.email         = ["david@conquerthelawn.com"]
 

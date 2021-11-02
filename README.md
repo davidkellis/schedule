@@ -1,10 +1,18 @@
-# Schedule
+# ScheduleJob
 
 schedule is a frontend around crontab to add/remove cron jobs from user cron tables.
 
 ## Installation
 
+```
+gem install schedule_job
+```
+
 ## Usage
+
+```
+
+```
 
 ## License
 

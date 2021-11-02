@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
-require "schedule"
+require "schedule_job"
 
 def main
-  Schedule::Cli.run(ARGV)
+  ScheduleJob::Cli.run(ARGV)
 end
 
 main

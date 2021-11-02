@@ -8,7 +8,7 @@ require "stringio"
 
 require_relative "./cron_parser"
 
-module Schedule
+module ScheduleJob
   module Cron
 
     class EnvironmentVar

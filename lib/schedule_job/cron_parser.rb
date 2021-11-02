@@ -15,13 +15,13 @@ module Citrus
   end
 end
 
-Citrus.require("schedule/cron")
+Citrus.require("schedule_job/cron")
 
 # require "polyglot"
 # require "treetop"
-# require "schedule/cron.treetop"
+# require "schedule_job/cron.treetop"
 
-module Schedule
+module ScheduleJob
   module Cron
     Grammar = ScheduleCronParser
 

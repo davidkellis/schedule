@@ -1,9 +1,5 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require "schedule/cli"
-require "schedule/cron"
-
-module ScheduleJob
-  VERSION = "1.0.0"
-end
+require "schedule_job/cli"
+require "schedule_job/cron"

@@ -2,7 +2,7 @@ require "optparse"
 
 # schedule --every 10m "my_command --foo --bar"
 
-module Schedule
+module ScheduleJob
   class Cli
     def self.run(argv = ARGV)
       cli = Cli.new

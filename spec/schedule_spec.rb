@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Schedule do
+RSpec.describe ScheduleJob do
   it "has a version number" do
-    expect(Schedule::VERSION).not_to be nil
+    expect(ScheduleJob::VERSION).not_to be nil
   end
 
   it "does something useful" do
